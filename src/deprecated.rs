@@ -1,7 +1,6 @@
-use serde::{Deserialize, Serialize};
-use serde_json;
-use std::collections::HashSet;
 use lazy_static::lazy_static;
+use serde::{Deserialize, Serialize};
+use std::collections::HashSet;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct DeprecatedList {
@@ -108,7 +107,7 @@ lazy_static! {
   ]
 }"#;
 
-let parsed: DeprecatedList = serde_json::from_str(json_data).expect("Failed to parse JSON");
+        let parsed: DeprecatedList = serde_json::from_str(json_data).expect("Failed to parse JSON");
         parsed.deprecated.into_iter().collect()
     };
 }
@@ -119,7 +118,8 @@ pub fn is_deprecated(model: &str) -> bool {
 
 pub fn emit_json() -> String {
     let deprecated_list: Vec<String> = DEPRECATED_SET.iter().cloned().collect();
-    let data = DeprecatedList { deprecated: deprecated_list };
+    let data = DeprecatedList {
+        deprecated: deprecated_list,
+    };
     serde_json::to_string_pretty(&data).expect("Failed to serialize JSON")
 }
-
