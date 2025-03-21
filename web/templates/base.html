@@ -82,56 +82,6 @@
 					<%- end %>
 				</dl>
 			</div>
-			<div class="frame">
-				<h2><%:Monitoring%></h2>
-				<table>
-					<tbody>
-						<tr><th><%:Uptime%></th><td><%= statistics('uptime', 'time') %></td></tr>
-						<tr><th><%:Load average%></th><td><%= statistics('loadavg', 'decimal') %></td></tr>
-						<tr><th><%:RAM%></th><td><%= statistics('memory', 'memory') %></td></tr>
-						<tr><th><%:Filesystem%></th><td><%= statistics('rootfs_usage', 'percent') %></td></tr>
-						<tr><th><%:Gateway%></th><td><%= statistics('gateway') %> (TQ: <%= statistics('gateway_tq', 'tq') %>)<br><%= statistics('gateway_nexthop', 'neighbour') %></td></tr>
-					</tbody>
-				</table>
-
-				<h3><%:Clients%></h3>
-				<table>
-					<tbody>
-						<tr><th><%:Total%></th><td><%= statistics('clients/total') %></td></tr>
-						<tr><th><%:Wireless 2.4 GHz%></th><td><%= statistics('clients/wifi24') %></td></tr>
-						<tr><th><%:Wireless 5 GHz%></th><td><%= statistics('clients/wifi5') %></td></tr>
-					</tbody>
-				</table>
-				<% if radios[1] then -%>
-					<h3><%:Radios%></h3>
-					<table>
-						<tbody>
-							<% for _, radio in ipairs(radios) do -%>
-								<tr>
-									<th><%| radio.name %></th>
-									<td><%| translatef('Channel %u', radio.channel) %></td>
-								</tr>
-							<%- end %>
-						</tbody>
-					</table>
-				<%- end %>
-
-				<h3><%:Traffic%></h3>
-				<table>
-					<tbody>
-						<tr><th><%:Transmitted%></th><td><%= statisticsTraffic('traffic/tx') %></td></tr>
-						<tr><th><%:Received%></th><td><%= statisticsTraffic('traffic/rx') %></td></tr>
-						<tr><th><%:Forwarded%></th><td><%= statisticsTraffic('traffic/forward') %></td></tr>
-					</tbody>
-				</table>
-
-				<div id="mesh-vpn" style="display: none">
-					<h3><%:Mesh VPN%></h3>
-					<table>
-						<tbody id="mesh-vpn-peers"></tbody>
-					</table>
-				</div>
-			</div>
 			<div class="frame frame-wide">
 				<h2><%:Neighbors%></h2>
 
