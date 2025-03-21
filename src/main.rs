@@ -31,10 +31,15 @@ enum Commands {
 
 async fn start_server() -> io::Result<()> {
     let tera = Data::new(Tera::new("./web/templates/**/*.html").unwrap());
-    HttpServer::new(move || App::new().app_data(tera.clone()).service(handlers::index))
-        .bind("127.0.0.1:8080")?
-        .run()
-        .await
+    HttpServer::new(move || {
+        App::new()
+            .app_data(tera.clone())
+            .service(handlers::index)
+            .service(actix_files::Files::new("/static", "./web/static").show_files_listing())
+    })
+    .bind("127.0.0.1:8080")?
+    .run()
+    .await
 }
 
 fn main() {
