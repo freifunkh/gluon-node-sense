@@ -83,36 +83,36 @@
 				</dl>
 			</div>
 			<div class="frame frame-wide">
-				<h2><%:Neighbors%></h2>
-
-				<%
-					for _, iface in ipairs(interfaces) do
-						local wireless = is_wireless(iface)
-						local address = util.readfile('/sys/class/net/' .. iface .. '/address')
-						if address then
-				%>
-					<h3><%| iface %></h3>
-					<div data-interface="<%| iface %>" data-interface-address="<%| util.trim(address) %>"<%= attr('data-interface-wireless', wireless) %>>
-						<table class="datatable">
-							<tbody>
-								<tr>
-									<th><%:Node%></th>
-									<% for i, v in ipairs(mesh.attrs or {}) do %>
-										<th<%= attr('class', 'row-' .. v[1] ) .. attr('data-key', v[1]) .. attr('data-suffix', v[3]) %>><%| v[2] %></th>
-									<% end %>
-									<% if wireless then %>
-										<th class="row-signal">dBm</th>
-										<th class="row-distance"><%:Distance%></th>
-										<th class="row-inactive"><%:Last seen%></th>
-									<% end %>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				<%
-						end
-					end
-				%>
+				<table class="datatable">
+					<thead>
+					<tr>
+						<th>Router</th>
+						<th>Version</th>
+						<th>Status</h>
+						<th>Meshviewer</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td><a href="http://funkturm2.n.ffh.zone" target=_blank>funkturm2</a></td>
+						<td>vH25</td>
+						<td>deprecated</td>
+						<td><a href="https://hannover.freifunk.net/karte/#!/en/map/e894f662df4c" target="_blank">e8:94:f6:62:df:4c</a></td>
+					</tr>
+					<tr>
+						<td><a href="http://wir2.n.ffh.zone" target=_blank>WIR2</a></td>
+						<td>vH25</td>
+						<td>deprecated</td>
+						<td><a href="https://hannover.freifunk.net/karte/#!/en/map/f8d1119055a4"target="_blank">f8:d1:11:90:55:a4</a></td>
+					</tr>
+					<tr>
+						<td><a href="http://ffh-popperode.n.ffh.zone" target=_blank>FFH-POPPERODE</a></td>
+						<td>vH25</td>
+						<td>deprecated</td>
+						<td><a href="https://hannover.freifunk.net/karte/#!/en/map/f4f26dd5b5a2"target="_blank">f4:f2:6d:d5:b5:a2</a></td>
+					</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 		<script src="/static/status-page.js"></script>

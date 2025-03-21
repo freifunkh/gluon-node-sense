@@ -184,6 +184,21 @@ table {
 		tr.highlight {
 			background: rgba(255, 180, 0, 0.25);
 		}
+
+		tbody:before {
+			content: "-";
+			display: block;
+			line-height: 1em;
+			color: transparent;
+		}
+
+		tbody tr:hover {
+			background: rgba(255, 180, 0, 0.25);
+		}
+		thead th {
+			@extend h2;
+			text-align: left;
+		}
 	}
 }
 
