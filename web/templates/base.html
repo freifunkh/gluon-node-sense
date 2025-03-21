@@ -10,11 +10,7 @@
 		<link rel="stylesheet" href="/static/css/style.css" type="text/css">
 		<link rel="icon" type="image/svg+xml" href="/static/images/favicon.svg">
 	</head>
-	<body data-node-address="<%| http:getenv('SERVER_ADDR') %>"<%=
-		attr('data-translations', translations) ..
-		attr('data-node-location', nodeinfo.location) ..
-		attr('data-mesh-provider', mesh.provider)
-	%>>
+	<body>
 		<header>
 			<h1><%| nodeinfo.hostname %></h1>
 		</header>
