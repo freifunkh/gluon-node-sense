@@ -21,7 +21,7 @@ impl NodesJSONUpdate {
 
     fn filter_non_deprecated(&mut self) {
         self.0.nodes.retain(|node| {
-            if let Some(model) = node.nodeinfo.hardware.get("model").and_then(|m| m.as_str()) {
+            if let Some(model) = &node.nodeinfo.hardware.model {
                 is_deprecated(model)
             } else {
                 //TODO have enviroment variable to silence warning
