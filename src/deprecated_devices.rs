@@ -17,7 +17,7 @@ pub fn emit_devices() -> std::string::String {
 
     tuple_list
         .iter()
-        .map(|(nodeid, hostname)| format!("{}\t{}", nodeid, hostname))
+        .map(|node| format!("{}\t{}", node.node_id, node.hostname))
         .collect::<Vec<String>>()
         .join("\n")
 }
