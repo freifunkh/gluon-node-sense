@@ -28,7 +28,7 @@ impl NodesJSONUpdate {
         Ok(())
     }
 
-    fn filter_non_deprecated(&mut self) {
+    pub fn filter_non_deprecated(&mut self) {
         self.0.nodes.retain(|node| {
             if let Some(model) = &node.nodeinfo.hardware.model {
                 is_deprecated(model)
@@ -51,6 +51,25 @@ impl NodesJSONUpdate {
             .map(|node| Node {
                 hostname: node.nodeinfo.hostname.clone(),
                 version: "versio pending".to_string(),
+                status: "deprecated".to_string(),
+                node_id: node.nodeinfo.node_id.clone(),
+            })
+            .collect()
+    }
+
+    pub fn get_nodes(&self) -> Vec<Node> {
+        self.0
+            .nodes
+            .iter()
+            .map(|node| Node {
+                hostname: node.nodeinfo.hostname.clone(),
+                version: node
+                    .nodeinfo
+                    .software
+                    .firmware
+                    .release
+                    .clone()
+                    .unwrap_or("not available".to_string()),
                 status: "deprecated".to_string(),
                 node_id: node.nodeinfo.node_id.clone(),
             })

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block wide_frame %}
+
+{% if nodes | length == 0 %}
+No routers found.
+  {% else %}
+<table class="datatable">
+        <thead>
+        <tr>
+                <th>Router</th>
+                <th>Version</th>
+                <th>Status</h>
+                <th>Meshviewer</th>
+        </tr>
+        </thead>
+        <tbody>
+{% for node in nodes %}
+        <tr>
+		<td><a href="http://{{node.hostname | lower}}.n.ffh.zone" target=_blank>{{node.hostname}}</a></td>
+		<td>{{node.version}}</td>
+		<td>{{node.status}}</td>
+		<td><a href="https://hannover.freifunk.net/karte/#!/en/map/{{node.node_id}}"target="_blank">{{node.node_id}}</a></td>
+        </tr>
+{% endfor %}
+        </tbody>
+</table>
+    </table>
+
+  {% endif %}
+
+
+{% endblock wide_frame %}
