@@ -9,6 +9,7 @@
 
 		<link rel="stylesheet" href="/static/css/style.css" type="text/css">
 		<link rel="icon" type="image/svg+xml" href="/static/images/favicon.svg">
+		<script type="text/javascript" src="/static/js/htmx.min.js"></script>
 	</head>
 	<body>
 		<header>
@@ -17,9 +18,27 @@
 		<div class="container">
 			<div class="frame">
 			</div>
-			<div class="frame frame-wide">
+			<div class="frame frame-wide" id="frame-wide">
 				{% block wide_frame %} {% endblock wide_frame %}
 			</div>
 		</div>
+
+
+	<script>
+	  window.onload = function () {
+           elem = document.body;
+	    // after ajax request performed by htmx, adjust keydown listeners
+           elem.addEventListener("htmx:afterRequest", function (evt) {
+             contenu = document.getElementById("frame-wide");
+             if (evt.detail.failed && evt.detail.xhr) {
+               // display error message within the document (and not only the console)
+               // Server error with response contents, equivalent to htmx:responseError
+               console.warn("Server error", evt.detail);
+               const xhr = evt.detail.xhr;
+               contenu.innerHTML = `Unexpected server error: ${xhr.status} - ${xhr.statusText}`;
+             }
+           });
+         };
+       </script>
 	</body>
 </html>
