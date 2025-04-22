@@ -63,6 +63,7 @@ async fn start_server() -> io::Result<()> {
             .app_data(tera.clone())
             .app_data(Data::new(nodes_json.clone()))
             .service(handlers::index)
+            .service(handlers::deprecated_list)
             .service(actix_files::Files::new("/static", "./web/static").show_files_listing())
     })
     .bind("127.0.0.1:8080")?

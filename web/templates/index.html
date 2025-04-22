@@ -6,14 +6,7 @@
 No routers found.
   {% else %}
 <table class="datatable">
-        <thead>
-        <tr>
-                <th>Router</th>
-                <th>Version</th>
-                <th>Status</h>
-                <th>Meshviewer</th>
-        </tr>
-        </thead>
+	{{table_header | safe}}
         <tbody>
 {% for node in nodes %}
         <tr>

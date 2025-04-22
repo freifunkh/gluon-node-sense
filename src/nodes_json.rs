@@ -5,7 +5,7 @@ use serde::Serialize;
 
 pub struct NodesJSONUpdate(pub NodesJSON);
 
-#[derive(Serialize)]
+#[derive(Clone, Serialize)]
 pub struct Node {
     pub hostname: String,
     pub version: String,
