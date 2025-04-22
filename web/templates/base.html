@@ -16,68 +16,6 @@
 		</header>
 		<div class="container">
 			<div class="frame">
-				<h2><%:Overview%></h2>
-				<dl>
-					<dt><%:Node name%></dt><dd><%| nodeinfo.hostname %></dd>
-					<% if nodeinfo.owner and nodeinfo.owner.contact then -%>
-						<dt><%:Contact%></dt><dd><%| nodeinfo.owner.contact %></dd>
-					<%- end %>
-					<% if nodeinfo.location then -%>
-						<dt><%:Location%></dt>
-						<dd><a href="geo:<%| nodeinfo.location.latitude %>,<%| nodeinfo.location.longitude %>">
-							<%| nodeinfo.location.latitude %>, <%| nodeinfo.location.longitude %>
-						</a></dd>
-					<%- end %>
-					<dt><%:Model%></dt><dd><%| nodeinfo.hardware.model %></dd>
-					<dt><%:Primary MAC address%></dt><dd><%| nodeinfo.network.mac %></dd>
-					<dt><%:IP address%></dt><dd><%= pcdata(table.concat(sorted(nodeinfo.network.addresses), '\n')):gsub('\n', '<br>') %></dd>
-					<dt><%:Firmware%></dt><dd><%| nodeinfo.software.firmware.release %></dd>
-					<% if nodeinfo.network.mesh_vpn then -%>
-						<dt><%:Mesh VPN%></dt>
-						<dd>
-							<%| enabled(nodeinfo.network.mesh_vpn.enabled) %>
-							<% if nodeinfo.network.mesh_vpn.provider then -%>
-							<br><%| nodeinfo.network.mesh_vpn.provider %>
-							<%- end %>
-						</dd>
-						<% if nodeinfo.network.mesh_vpn.bandwidth_limit.enabled then -%>
-						<dt><%:Bandwidth limit%></dt>
-						<dd>
-							<% if nodeinfo.network.mesh_vpn.bandwidth_limit.ingress then -%>
-								▼ <%| formatBits(nodeinfo.network.mesh_vpn.bandwidth_limit.ingress*1000) %>/s <%:downstream%><br>
-							<%- end %>
-							<% if nodeinfo.network.mesh_vpn.bandwidth_limit.egress then -%>
-								▲ <%| formatBits(nodeinfo.network.mesh_vpn.bandwidth_limit.egress*1000) %>/s <%:upstream%>
-							<%- end %>
-						</dd>
-						<%- end %>
-					<%- end %>
-					<dt><%:Site%></dt><dd><%| site.site_name() %></dd>
-					<% if nodeinfo.system.domain_code then -%>
-						<dt><%:Domain%></dt>
-						<dd>
-							<%| site.domain_names[nodeinfo.system.domain_code]() %>
-							<% if nodeinfo.system.domain_code ~= nodeinfo.system.primary_domain_code then %>
-							(<%| site.domain_names[nodeinfo.system.primary_domain_code]() %>)
-							<%- end %>
-						</dd>
-					<%- end %>
-					<% if nodeinfo.system.role then -%>
-						<dt><%:Role%></dt><dd><%| site_i18n._translate('gluon-web-node-role:role:' .. nodeinfo.system.role) %></dd>
-					<%- end %>
-					<% if nodeinfo.software.autoupdater then -%>
-						<dt><%:Automatic updates%></dt><dd><%| enabled(nodeinfo.software.autoupdater.enabled) %><%|
-							nodeinfo.software.autoupdater.enabled and
-								string.format(' (%s)', nodeinfo.software.autoupdater.branch)
-						%></dd>
-					<%- end %>
-					<% if nodeinfo.software['batman-adv'] then -%>
-						<dt><%:Mesh protocol%></dt>
-						<% if nodeinfo.software['batman-adv'] then -%>
-						<dd>batman-adv <%| nodeinfo.software['batman-adv'].version %> (compat<%| nodeinfo.software['batman-adv'].compat %>)</dd>
-						<%- end %>
-					<%- end %>
-				</dl>
 			</div>
 			<div class="frame frame-wide">
 				{% block wide_frame %} {% endblock wide_frame %}
