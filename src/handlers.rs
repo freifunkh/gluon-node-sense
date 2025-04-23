@@ -15,6 +15,7 @@ use tera::{Context, Tera};
 pub struct SortQuery {
     asc: Option<bool>,
     cmp: Option<String>,
+    q: Option<String>,
 }
 
 #[get("/")]
@@ -28,6 +29,16 @@ pub async fn index(
 
     let ascending = query.asc.unwrap_or(true);
     let comparator: String = query.cmp.clone().unwrap_or("hostname".to_string());
+    let query_string: Option<String> = query.q.clone();
+
+    if let Some(string) = query_string {
+        nodes.retain(|node| {
+            node.hostname.contains(&string)
+                || node.version.contains(&string)
+                || node.status.contains(&string)
+                || node.node_id.contains(&string)
+        });
+    };
 
     nodes.sort_by(|a, b| {
         let cmp = match comparator.as_str() {
@@ -60,16 +71,27 @@ fn gen_table_header(query: &SortQuery, routers: usize) -> String {
     let symbol = if asc { "▲" } else { "▼" };
     let inverse_string = if asc { "false" } else { "true" };
     let cmp = query.cmp.clone().unwrap_or("Router".to_string());
+    let q = query.q.clone();
 
     for header in headers {
-        res.push_str(&format!("<th hx-trigger=\"click\" hx-get=\"/deprecated_list?asc={inverse_string}&cmp={header}\" hx-target=\"#frame-wide\" hx-swap=\"innerHTML\" hx-push-url=\"?asc={inverse_string}&cmp={header}\" >{header}"));
+        res.push_str(&format!(
+            "<th hx-trigger=\"click\" hx-get=\"/deprecated_list?asc={inverse_string}&cmp={header}"
+        ));
+        if let Some(ref query_string) = q {
+            res.push_str(&format!("&q={query_string}"));
+        }
+        res.push_str(&format!("\" hx-target=\"#frame-wide\" hx-swap=\"innerHTML\" hx-push-url=\"?asc={inverse_string}&cmp={header}"));
+        if let Some(ref query_string) = q {
+            res.push_str(&format!("&q={query_string}"));
+        }
+        res.push_str(&format!("\" >{header}"));
         if header == "Router" {
             res.push_str(&format!(" ({routers})"));
         };
         if header == cmp {
             res.push_str(&format!(" {symbol}"));
         };
-        res.push_str(&format!("</th>"));
+        res.push_str("</th>");
     }
     res.push_str(
         "
@@ -92,6 +114,16 @@ pub async fn deprecated_list(
 
     let ascending = query.asc.unwrap_or(true);
     let comparator: String = query.cmp.clone().unwrap_or("hostname".to_string());
+    let query_string: Option<String> = query.q.clone();
+
+    if let Some(string) = query_string {
+        nodes.retain(|node| {
+            node.hostname.contains(&string)
+                || node.version.contains(&string)
+                || node.status.contains(&string)
+                || node.node_id.contains(&string)
+        });
+    };
 
     nodes.sort_by(|a, b| {
         let cmp = match comparator.as_str() {
