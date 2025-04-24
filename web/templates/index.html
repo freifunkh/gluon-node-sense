@@ -10,7 +10,7 @@ No routers found.
         <tbody>
 {% for node in nodes %}
         <tr>
-		<td><a href="http://{{node.hostname | lower}}.n.ffh.zone" target=_blank>{{node.hostname}}</a></td>
+		<td>{{node.hostname}}</td>
 		<td>{{node.version}}</td>
 		<td>{{node.status}}</td>
 		<td><a href="https://hannover.freifunk.net/karte/#!/en/map/{{node.node_id}}"target="_blank">{{node.node_id}}</a></td>
