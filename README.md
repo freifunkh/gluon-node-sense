@@ -1,4 +1,4 @@
-# freifunk-node-sense
+# gluon-node-sense
 
 ## configuration
 

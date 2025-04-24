@@ -910,24 +910,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "freifunk-node-sense"
-version = "0.1.0"
-dependencies = [
- "actix-files",
- "actix-web",
- "async-std",
- "clap",
- "grass",
- "lazy_static",
- "nodes-parse",
- "reqwest",
- "serde",
- "serde_json",
- "tera",
- "tokio",
-]
-
-[[package]]
 name = "futures-channel"
 version = "0.3.31"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1060,6 +1042,24 @@ dependencies = [
  "futures-core",
  "js-sys",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "gluon-node-sense"
+version = "0.2.0"
+dependencies = [
+ "actix-files",
+ "actix-web",
+ "async-std",
+ "clap",
+ "grass",
+ "lazy_static",
+ "nodes-parse",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "tera",
+ "tokio",
 ]
 
 [[package]]

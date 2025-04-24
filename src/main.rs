@@ -19,7 +19,7 @@ use tokio::time::interval;
 
 #[derive(Parser)]
 #[command(
-    name = "freifunk-node-sense",
+    name = "gluon-node-sense",
     version = "0.0.1",
     about = "Sensing problems and opportunities in Freifunk nodes."
 )]
