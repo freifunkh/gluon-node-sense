@@ -1,5 +1,21 @@
 # gluon-node-sense
 
+## usage
+
+```console
+Usage: gluon-node-sense <COMMAND>
+
+Commands:
+  server
+  show-deprecated          Show deprecated models as json
+  show-deprecated-devices
+  help                     Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help     Print help
+  -V, --version  Print version
+```
+
 ## configuration
 
 The server can be configured using environment variables like these:
