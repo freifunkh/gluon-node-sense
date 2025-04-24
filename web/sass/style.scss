@@ -144,6 +144,13 @@ dd {
 	margin-bottom: 16px;
 }
 
+input[type=search] {
+        width: 100%;
+        box-sizing: border-box;
+	padding: 6px;
+	font-size: 17px;
+}
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
