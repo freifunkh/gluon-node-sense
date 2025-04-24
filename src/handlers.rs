@@ -32,11 +32,12 @@ pub async fn index(
     let query_string: Option<String> = query.q.clone();
 
     if let Some(string) = query_string {
+        let lower = string.to_lowercase();
         nodes.retain(|node| {
-            node.hostname.contains(&string)
-                || node.version.contains(&string)
-                || node.status.contains(&string)
-                || node.node_id.contains(&string)
+            node.hostname.to_lowercase().contains(&lower)
+                || node.version.to_lowercase().contains(&lower)
+                || node.status.to_lowercase().contains(&lower)
+                || node.node_id.to_lowercase().contains(&lower)
         });
     };
 
