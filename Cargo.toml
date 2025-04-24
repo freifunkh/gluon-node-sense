@@ -2,6 +2,11 @@
 name = "gluon-node-sense"
 version = "0.2.0"
 edition = "2021"
+description = "Senses problems and maintenance opportunities in your Freifunk routers."
+repository = "https://github.com/freifunkh/gluon-node-sense"
+license = "MIT"
+keywords = ["freifunk", "gluon", "management", "router"]
+categories = ["command-line-utilities", "visualization"]
 
 [dependencies]
 actix-files = "0.6.6"
