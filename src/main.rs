@@ -9,6 +9,7 @@ use clap::{Parser, Subcommand};
 use deprecated::emit_json;
 use deprecated_devices::emit_devices;
 use nodes_parse::NodesJSON;
+use std::env;
 use std::io;
 use std::sync::Arc;
 use std::time::Duration;
@@ -36,11 +37,23 @@ enum Commands {
 }
 
 async fn start_server() -> io::Result<()> {
+    const DEFAULT_NODES_JSON_URL: &str = "https://harvester.ffh.zone/api/nodes.json";
+    let nodes_json_url: String =
+        env::var("NODES_JSON_URL").unwrap_or(DEFAULT_NODES_JSON_URL.to_string());
+    const DEFAULT_BIND_HOST: &str = "0.0.0.0";
+    const DEFAULT_BIND_PORT: &str = "8080";
+    let bind_host: String = env::var("BIND_HOST").unwrap_or(DEFAULT_BIND_HOST.to_string());
+    let bind_port: String = env::var("BIND_PORT").unwrap_or(DEFAULT_BIND_PORT.to_string());
+    let bind_endpoint: String = format!("{}:{}", bind_host, bind_port);
+    const DEFAULT_NODES_JSON_POLL_INTERVAL_S: u64 = 60;
+    let nodes_json_poll_interval_s = env::var("NODES_JSON_POLL_INTERVAL_S")
+        .ok()
+        .and_then(|interval| interval.parse::<u64>().ok())
+        .unwrap_or(DEFAULT_NODES_JSON_POLL_INTERVAL_S);
+
     let wrapped_nodes_json = NodesJSONUpdate(NodesJSON::default());
     let nodes_json = Arc::new(RwLock::new(wrapped_nodes_json));
-    let mut interval = interval(Duration::from_secs(60));
-    const DEFAULT_NODES_JSON_URL: &str = "https://harvester.ffh.zone/api/nodes.json";
-    let nodes_json_url = DEFAULT_NODES_JSON_URL.to_string();
+    let mut interval = interval(Duration::from_secs(nodes_json_poll_interval_s));
 
     let nodes_json_clone = Arc::clone(&nodes_json);
     let _maintainance = tokio::task::spawn(async move {
@@ -66,7 +79,7 @@ async fn start_server() -> io::Result<()> {
             .service(handlers::deprecated_list)
             .service(actix_files::Files::new("/static", "./web/static").show_files_listing())
     })
-    .bind("127.0.0.1:8080")?
+    .bind(bind_endpoint)?
     .run()
     .await
 }
