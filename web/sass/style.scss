@@ -10,6 +10,12 @@
 	changes to the compiled version within the same commit!
 */
 
+html, body {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
 html, body, div, span,
 h1, h2, h3,
 dl, dt, dd,
@@ -30,6 +36,7 @@ body {
 	color: rgba(0, 0, 0, 0.87);
 	font-size: 14px;
 	line-height: 1;
+	min-height: 100vh;
 }
 
 
@@ -91,10 +98,14 @@ header {
 }
 
 .container {
+	$container-margin-top: 64px;
+	$container-margin-bottom: 24px;
+
 	display: flex;
 
 	max-width: 90vw;
-	margin: 64px auto 24px auto;
+	min-height: calc(100vh - $container-margin-bottom - $container-margin-top);
+	margin: $container-margin-top auto $container-margin-bottom auto;
 	background: rgb(253, 253, 253);
 	box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.19), 0px 3px 6px rgba(0, 0, 0, 0.23);
 
@@ -145,8 +156,8 @@ dd {
 }
 
 input[type=search] {
-        width: 100%;
-        box-sizing: border-box;
+	width: 100%;
+	box-sizing: border-box;
 	padding: 6px;
 	font-size: 17px;
 }
