@@ -2,9 +2,6 @@
 
 {% block wide_frame %}
 
-{% if nodes | length == 0 %}
-No routers found.
-  {% else %}
 <table class="datatable">
 	{{table_header | safe}}
         <tbody>
@@ -18,9 +15,5 @@ No routers found.
 {% endfor %}
         </tbody>
 </table>
-    </table>
-
-  {% endif %}
-
 
 {% endblock wide_frame %}
