@@ -97,15 +97,16 @@ header {
 	}
 }
 
+$footer-height: 24px;
+
 .container {
 	$container-margin-top: 64px;
-	$container-margin-bottom: 24px;
 
 	display: flex;
 
 	max-width: 90vw;
-	min-height: calc(100vh - $container-margin-bottom - $container-margin-top);
-	margin: $container-margin-top auto $container-margin-bottom auto;
+	min-height: calc(100vh - $container-margin-top - $footer-height);
+	margin: $container-margin-top auto 0 auto;
 	background: rgb(253, 253, 253);
 	box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.19), 0px 3px 6px rgba(0, 0, 0, 0.23);
 
@@ -124,6 +125,24 @@ header {
 		&-wide {
 			flex: 2;
 		}
+	}
+}
+
+footer {
+	display: flex;
+	align-items: center;
+	height: $footer-height;
+	margin-inline-end: 5%;
+	justify-content: flex-end;
+	a {
+	        display: flex;
+	        align-items: center;
+		padding: 0 5px;
+		height: 100%;
+		background: rgb(253, 253, 253);
+		box-shadow:
+                  0px 8px 10px rgba(0, 0, 0, 0.19),
+                  0px 6px 6px rgba(0, 0, 0, 0.23);
 	}
 }
 
@@ -230,6 +249,10 @@ table {
 		height: 56px;
 		z-index: 1;
 		position: fixed;
+	}
+
+	footer {
+		margin-inline-end: 0;
 	}
 
 	.datatable {
