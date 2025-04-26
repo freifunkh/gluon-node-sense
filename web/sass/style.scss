@@ -19,7 +19,7 @@ html, body {
 html, body, div, span,
 h1, h2, h3,
 dl, dt, dd,
-canvas, header,
+header,
 table, tr, th, td {
 	margin: 0;
 	padding: 0;
@@ -218,11 +218,6 @@ table {
 			text-align: left;
 		}
 	}
-}
-
-canvas.signalgraph {
-	margin-top: 8px;
-	width: 100%;
 }
 
 @media only screen and (max-width: 1250px) {
