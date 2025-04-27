@@ -116,12 +116,11 @@ fn gen_table_header(query: &SortQuery, routers: usize) -> String {
     res
 }
 
-#[get("/deprecated_list")]
-pub async fn deprecated_list(
+async fn gen_deprecated_list(
     query: Query<SortQuery>,
     tera: Data<Tera>,
     nodes_json_arc_rw: Data<Arc<RwLock<NodesJSONUpdate>>>,
-) -> impl Responder {
+) -> String {
     let mut ctx = Context::new();
     let r_nodes: Vec<Node> = nodes_json_arc_rw.read().await.get_nodes();
     let mut nodes = r_nodes.clone();
@@ -158,8 +157,15 @@ pub async fn deprecated_list(
 
     ctx.insert("nodes", &nodes);
     ctx.insert("table_header", &table_header);
-    HttpResponse::Ok().body(
-        tera.render("components/deprecated_list.html", &ctx)
-            .unwrap(),
-    )
+    tera.render("components/deprecated_list.html", &ctx)
+        .unwrap()
+}
+
+#[get("/deprecated_list")]
+pub async fn deprecated_list(
+    query: Query<SortQuery>,
+    tera: Data<Tera>,
+    nodes_json_arc_rw: Data<Arc<RwLock<NodesJSONUpdate>>>,
+) -> impl Responder {
+    HttpResponse::Ok().body(gen_deprecated_list(query, tera, nodes_json_arc_rw).await)
 }
