@@ -154,11 +154,9 @@ pub async fn deprecated_list(
         cmp.reverse()
     });
 
-    let search_bar = gen_search_bar(&query, tera.clone());
     let table_header = gen_table_header(&query, nodes.len());
 
     ctx.insert("nodes", &nodes);
-    ctx.insert("search_bar", &search_bar);
     ctx.insert("table_header", &table_header);
     HttpResponse::Ok().body(
         tera.render("components/deprecated_list.html", &ctx)
