@@ -33,14 +33,20 @@ pub async fn index(
     HttpResponse::Ok().body(tera.render("index.html", &context).unwrap())
 }
 
+fn format_cmp_params(asc: &Option<bool>, cmp: &Option<String>) -> String {
+    let asc_b: bool = asc.unwrap_or(true);
+    let cmp_s = cmp.clone().unwrap_or("Router".to_string());
+    format!("?asc={}&cmp={}", asc_b, cmp_s)
+}
+
 fn gen_search_bar(query: &SortQuery, tera: Data<Tera>) -> String {
     let q = query.q.clone();
     let query_string = q.unwrap_or("".to_string());
-    let formatted_cmp_params = "?asc=true&cmp=Meshviewer";
+    let formatted_cmp_params = format_cmp_params(&query.asc, &query.cmp);
     let mut context = Context::new();
 
     context.insert("query_string", &query_string);
-    context.insert("formatted_cmp_params", formatted_cmp_params);
+    context.insert("formatted_cmp_params", &formatted_cmp_params);
     tera.render("components/search_bar.html", &context).unwrap()
 }
 
