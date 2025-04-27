@@ -64,7 +64,7 @@ fn gen_table_header(query: &SortQuery, routers: usize) -> String {
 
     for header in headers {
         res.push_str(&format!(
-            "<th hx-trigger=\"click\" hx-get=\"/deprecated_list?asc={inverse_string}&cmp={header}"
+            "<th hx-trigger=\"click\" hx-get=\"/deprecated_list_and_bar?asc={inverse_string}&cmp={header}"
         ));
         if let Some(ref query_string) = q {
             res.push_str(&format!("&q={query_string}"));
@@ -136,11 +136,13 @@ async fn gen_deprecated_list(
         .unwrap()
 }
 
-#[get("/deprecated_list")]
-pub async fn deprecated_list(
+#[get("/deprecated_list_and_bar")]
+pub async fn deprecated_list_and_bar(
     query: Query<SortQuery>,
     tera: Data<Tera>,
     nodes_json_arc_rw: Data<Arc<RwLock<NodesJSONUpdate>>>,
 ) -> impl Responder {
-    HttpResponse::Ok().body(gen_deprecated_list(query, tera, nodes_json_arc_rw).await)
+    let bar = gen_search_bar(&query, tera.clone());
+    let list = gen_deprecated_list(query, tera.clone(), nodes_json_arc_rw).await;
+    HttpResponse::Ok().body(format!("{}{}", bar, list))
 }
