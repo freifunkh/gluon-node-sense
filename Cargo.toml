@@ -11,7 +11,6 @@ categories = ["command-line-utilities", "visualization"]
 [dependencies]
 actix-files = "0.6.6"
 actix-web = "4.10.2"
-async-std = "1.13.1"
 clap = { version = "4.5.32", features = ["derive"] }
 lazy_static = "1.5.0"
 nodes-parse = { version = "1.0.0-beta", features = ["chrono"] }
