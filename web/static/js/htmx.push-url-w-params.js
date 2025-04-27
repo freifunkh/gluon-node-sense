@@ -3,7 +3,8 @@ htmx.defineExtension('push-url-w-params', {
         if (name === "htmx:configRequest") {
             const path = e.target.getAttribute('data-push-url')
             const params = new URLSearchParams(e.detail.parameters).toString()
-            const url = `${window.location.origin}${path}?${params}`
+            var joiner = path.includes('?') ? '&' : '?'
+            const url = `${window.location.origin}${path}${joiner}${params}`
             window.history.pushState({}, '', url);
         }
     }
