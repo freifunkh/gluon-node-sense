@@ -29,6 +29,7 @@ pub async fn index(
         gen_deprecated_list(query, tera.clone(), nodes_json_arc_rw).await;
     let mut context = Context::new();
     context.insert("search_bar", &search_bar);
+    context.insert("version", env!("CARGO_PKG_VERSION"));
     context.insert("deprecated_devices_table", &deprecated_devices_table);
     HttpResponse::Ok().body(tera.render("index.html", &context).unwrap())
 }
