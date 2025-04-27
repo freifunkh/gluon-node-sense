@@ -55,11 +55,28 @@ pub async fn index(
         cmp.reverse()
     });
 
+    let search_bar = gen_search_bar(&query);
     let table_header = gen_table_header(&query, nodes.len());
 
     ctx.insert("nodes", &nodes);
+    ctx.insert("search_bar", &search_bar);
     ctx.insert("table_header", &table_header);
     HttpResponse::Ok().body(tera.render("index.html", &ctx).unwrap())
+}
+
+fn gen_search_bar(query: &SortQuery) -> String {
+    let q = query.q.clone();
+    let query_string = q.unwrap_or("".to_string());
+    let res = format!(
+        r##"<input class="form-control" type="search"
+	name="q" value="{query_string}" placeholder="Begin typing to filter routers..."
+	hx-get="/deprecated_list"
+	hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
+	hx-ext="push-url-w-params"
+	data-push-url="/"
+	hx-target="#frame-wide">"##
+    );
+    res.to_string()
 }
 
 fn gen_table_header(query: &SortQuery, routers: usize) -> String {
@@ -141,9 +158,11 @@ pub async fn deprecated_list(
         cmp.reverse()
     });
 
+    let search_bar = gen_search_bar(&query);
     let table_header = gen_table_header(&query, nodes.len());
 
     ctx.insert("nodes", &nodes);
+    ctx.insert("search_bar", &search_bar);
     ctx.insert("table_header", &table_header);
     HttpResponse::Ok().body(
         tera.render("components/deprecated_list.html", &ctx)

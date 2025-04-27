@@ -18,13 +18,7 @@
 		</header>
 		<div class="container">
 			<div class="frame">
-				<input class="form-control" type="search"
-					name="q" placeholder="Begin typing to filter routers..."
-					hx-get="/deprecated_list"
-					hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
-					hx-ext="push-url-w-params"
-					data-push-url="/"
-					hx-target="#frame-wide">
+				{{search_bar | safe}}
 			</div>
 			<div class="frame frame-wide" id="frame-wide">
 				{% block wide_frame %} {% endblock wide_frame %}
