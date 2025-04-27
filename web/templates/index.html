@@ -1,19 +1,5 @@
 {% extends "base.html" %}
 
 {% block wide_frame %}
-
-<table class="datatable">
-	{{table_header | safe}}
-        <tbody>
-{% for node in nodes %}
-        <tr>
-		<td>{{node.hostname}}</td>
-		<td>{{node.version}}</td>
-		<td>{{node.status}}</td>
-		<td><a href="https://hannover.freifunk.net/karte/#!/en/map/{{node.node_id}}"target="_blank">{{node.node_id}}</a></td>
-        </tr>
-{% endfor %}
-        </tbody>
-</table>
-
+{{ deprecated_devices_table | safe}}
 {% endblock wide_frame %}

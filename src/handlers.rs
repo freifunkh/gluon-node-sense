@@ -24,44 +24,13 @@ pub async fn index(
     tera: Data<Tera>,
     nodes_json_arc_rw: Data<Arc<RwLock<NodesJSONUpdate>>>,
 ) -> impl Responder {
-    let mut ctx = Context::new();
-    let mut nodes: Vec<Node> = nodes_json_arc_rw.read().await.get_nodes();
-
-    let ascending = query.asc.unwrap_or(true);
-    let comparator: String = query.cmp.clone().unwrap_or("hostname".to_string());
-    let query_string: Option<String> = query.q.clone();
-
-    if let Some(string) = query_string {
-        let lower = string.to_lowercase();
-        nodes.retain(|node| {
-            node.hostname.to_lowercase().contains(&lower)
-                || node.version.to_lowercase().contains(&lower)
-                || node.status.to_lowercase().contains(&lower)
-                || node.node_id.to_lowercase().contains(&lower)
-        });
-    };
-
-    nodes.sort_by(|a, b| {
-        let cmp = match comparator.as_str() {
-            "Router" => a.hostname.to_lowercase().cmp(&b.hostname.to_lowercase()),
-            "Version" => a.version.cmp(&b.version),
-            "Status" => a.status.cmp(&b.status),
-            "Meshviewer" => a.node_id.cmp(&b.node_id),
-            _ => a.hostname.cmp(&b.hostname),
-        };
-        if ascending {
-            return cmp;
-        }
-        cmp.reverse()
-    });
-
     let search_bar = gen_search_bar(&query, tera.clone());
-    let table_header = gen_table_header(&query, nodes.len());
-
-    ctx.insert("nodes", &nodes);
-    ctx.insert("search_bar", &search_bar);
-    ctx.insert("table_header", &table_header);
-    HttpResponse::Ok().body(tera.render("index.html", &ctx).unwrap())
+    let deprecated_devices_table =
+        gen_deprecated_list(query, tera.clone(), nodes_json_arc_rw).await;
+    let mut context = Context::new();
+    context.insert("search_bar", &search_bar);
+    context.insert("deprecated_devices_table", &deprecated_devices_table);
+    HttpResponse::Ok().body(tera.render("index.html", &context).unwrap())
 }
 
 fn gen_search_bar(query: &SortQuery, tera: Data<Tera>) -> String {
