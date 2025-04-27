@@ -1,6 +1,6 @@
 [package]
 name = "gluon-node-sense"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 description = "Senses problems and maintenance opportunities in your Freifunk routers."
 repository = "https://github.com/freifunkh/gluon-node-sense"
