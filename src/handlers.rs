@@ -55,7 +55,7 @@ pub async fn index(
         cmp.reverse()
     });
 
-    let search_bar = gen_search_bar(&query);
+    let search_bar = gen_search_bar(&query, tera.clone());
     let table_header = gen_table_header(&query, nodes.len());
 
     ctx.insert("nodes", &nodes);
@@ -64,19 +64,15 @@ pub async fn index(
     HttpResponse::Ok().body(tera.render("index.html", &ctx).unwrap())
 }
 
-fn gen_search_bar(query: &SortQuery) -> String {
+fn gen_search_bar(query: &SortQuery, tera: Data<Tera>) -> String {
     let q = query.q.clone();
     let query_string = q.unwrap_or("".to_string());
-    let res = format!(
-        r##"<input class="form-control" type="search"
-	name="q" value="{query_string}" placeholder="Begin typing to filter routers..."
-	hx-get="/deprecated_list"
-	hx-trigger="input changed delay:500ms, keyup[key=='Enter']"
-	hx-ext="push-url-w-params"
-	data-push-url="/"
-	hx-target="#frame-wide">"##
-    );
-    res.to_string()
+    let formatted_cmp_params = "?asc=true&cmp=Meshviewer";
+    let mut context = Context::new();
+
+    context.insert("query_string", &query_string);
+    context.insert("formatted_cmp_params", formatted_cmp_params);
+    tera.render("components/search_bar.html", &context).unwrap()
 }
 
 fn gen_table_header(query: &SortQuery, routers: usize) -> String {
@@ -158,7 +154,7 @@ pub async fn deprecated_list(
         cmp.reverse()
     });
 
-    let search_bar = gen_search_bar(&query);
+    let search_bar = gen_search_bar(&query, tera.clone());
     let table_header = gen_table_header(&query, nodes.len());
 
     ctx.insert("nodes", &nodes);
