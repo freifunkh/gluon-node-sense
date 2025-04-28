@@ -7,7 +7,7 @@ use nodes_parse::NodesJSON;
 pub fn emit_devices() -> std::string::String {
     const DEFAULT_NODES_JSON_URL: &str = "https://harvester.ffh.zone/api/nodes.json";
 
-    let nodes_json_url = env::var("nodes_json_url").unwrap_or(DEFAULT_NODES_JSON_URL.to_string());
+    let nodes_json_url = env::var("NODES_JSON_URL").unwrap_or(DEFAULT_NODES_JSON_URL.to_string());
     let mut wrapped_nodes_json = NodesJSONUpdate(NodesJSON::default());
     let rt = Runtime::new().unwrap();
     rt.block_on(wrapped_nodes_json.update_from_json(&nodes_json_url))
