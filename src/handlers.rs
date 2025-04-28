@@ -1,3 +1,4 @@
+use std::env;
 use crate::nodes_json::Node;
 use crate::nodes_json::NodesJSONUpdate;
 use actix_web::{
@@ -97,6 +98,9 @@ async fn gen_deprecated_list(
     tera: Data<Tera>,
     nodes_json_arc_rw: Data<Arc<RwLock<NodesJSONUpdate>>>,
 ) -> String {
+    const DEFAULT_MESHVIEWER_URL: &str = "https://hannover.freifunk.net/karte/#!/en/map/";
+    let meshviewer_url = env::var("MESHVIEWER_URL").unwrap_or(DEFAULT_MESHVIEWER_URL.to_string());
+
     let mut ctx = Context::new();
     let r_nodes: Vec<Node> = nodes_json_arc_rw.read().await.get_nodes();
     let mut nodes = r_nodes.clone();
@@ -131,6 +135,7 @@ async fn gen_deprecated_list(
 
     let table_header = gen_table_header(&query, nodes.len());
 
+    ctx.insert("meshviewer_url", &meshviewer_url);
     ctx.insert("nodes", &nodes);
     ctx.insert("table_header", &table_header);
     tera.render("components/deprecated_list.html", &ctx)
