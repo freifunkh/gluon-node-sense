@@ -6,7 +6,7 @@
                 <td>{{node.hostname}}</td>
                 <td>{{node.version}}</td>
                 <td>{{node.status}}</td>
-                <td><a href="https://hannover.freifunk.net/karte/#!/en/map/{{node.node_id}}"target="_blank">{{node.node_id}}</a></td>
+                <td><a href="{{meshviewer_url}}{{node.node_id}}"target="_blank">{{node.node_id}}</a></td>
         </tr>
 {% endfor %}
         </tbody>
