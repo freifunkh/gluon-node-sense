@@ -43,6 +43,14 @@
              }
            });
          };
+         document.addEventListener('keydown', e => {
+           if (e.key === 'i' && document.activeElement.tagName !== 'INPUT') {
+             e.preventDefault();
+             search_bar.focus();
+           } else if (e.key === 'Escape' && document.activeElement === search_bar) {
+             search_bar.blur();
+           }
+         });
        </script>
 	</body>
 </html>
